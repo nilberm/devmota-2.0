@@ -22,7 +22,7 @@ const Board = () => {
 
   const inputColumnRef = useRef<HTMLInputElement | null>(null);
 
-  const [lastId, setLastId] = useState<any>();
+  const { lastId, setLastId } = useContext(ControlListContext);
 
   const cachedObject = localStorage.getItem("kanbanObject");
   const cachedId = localStorage.getItem("lastId");
