@@ -7,7 +7,11 @@ import Card from "../Card";
 
 import { ControlThemeContext } from "../../context/ControlThemeContext";
 import { useDrop } from "react-dnd";
-import { MdOutlineAdd, MdOutlineClose } from "react-icons/md";
+import {
+  MdOutlineAdd,
+  MdOutlineClose,
+  MdOutlineDeleteOutline,
+} from "react-icons/md";
 import { ControlListContext } from "../../context/ControlListContext";
 
 const List = ({ data, indexList, move }: any) => {
@@ -71,6 +75,11 @@ const List = ({ data, indexList, move }: any) => {
     localStorage.setItem("lastId", JSON.stringify(lastId));
   };
 
+  const deleteColumnById = (id: number) => {
+    const updatedLists = lists.filter((list: any) => list.id !== id);
+    setLists(updatedLists);
+  };
+
   useEffect(() => {
     if (toggleAddCard && inputCardRef.current) {
       inputCardRef.current.focus();
@@ -81,10 +90,60 @@ const List = ({ data, indexList, move }: any) => {
     saveToStorage();
   }, [lastId, lists]);
 
+  const ColumnTitle = (data: any) => {
+    const [isEditing, setIsEditing] = useState(false);
+
+    const inputColumnRef = useRef<HTMLInputElement | null>(null);
+
+    const handleEditButtonClick = () => {
+      setIsEditing(true);
+    };
+
+    const handleEditColumn = (value: string) => {
+      const updatedLists = lists.map((list: any) => {
+        if (list.id === data.id) {
+          return {
+            ...list,
+            title: value !== "" ? value : data.title,
+          };
+        } else {
+          return list;
+        }
+      });
+      setLists(updatedLists);
+      setIsEditing(false);
+    };
+
+    useEffect(() => {
+      if (isEditing && inputColumnRef.current) {
+        inputColumnRef.current.focus();
+      }
+    }, [isEditing]);
+
+    return (
+      <div>
+        {isEditing ? (
+          <input
+            className="inputColumnName"
+            type="text"
+            defaultValue={data.title}
+            onBlur={(v) => handleEditColumn(v.target.value)}
+            ref={inputColumnRef}
+          />
+        ) : (
+          <h2 onClick={handleEditButtonClick}>{data.title}</h2>
+        )}
+      </div>
+    );
+  };
+
   return (
     <Container done={data.done} themeColor={theme} ref={drop}>
       <header>
-        <h2>{data.title}</h2>
+        {ColumnTitle(data)}
+        <button onClick={() => deleteColumnById(data.id)}>
+          <MdOutlineDeleteOutline />
+        </button>
       </header>
 
       <ul>

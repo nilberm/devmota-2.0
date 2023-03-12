@@ -36,15 +36,39 @@ export const Container = styled.div`
       padding: 0 10px;
       color: ${(props: PropsColor) =>
         props.themeColor ? "var(--White)" : "var(--Black)"};
+      cursor: pointer;
+      letter-spacing: 0.2px;
+      word-spacing: 1px;
     }
 
     button {
-      width: 42px;
-      height: 42px;
       border-radius: 18px;
-      background: #3b5bfd;
+      color: ${(props: PropsColor) =>
+        props.themeColor ? "var(--White)" : "var(--Black)"};
+      background: none;
+      font-size: 1.4rem;
       border: 0;
       cursor: pointer;
+      visibility: hidden;
+    }
+
+    &:hover {
+      button {
+        visibility: visible;
+      }
+    }
+
+    .inputColumnName {
+      background: none;
+      border: none;
+      color: ${(props: PropsColor) =>
+        props.themeColor ? "var(--White)" : "var(--Black)"};
+      font-weight: 500;
+      font-size: 1.2rem;
+      font-family: "Roboto", sans-serif;
+      padding: 0 10px;
+      letter-spacing: 0.2px;
+      word-spacing: 0.1px;
     }
   }
   ul {

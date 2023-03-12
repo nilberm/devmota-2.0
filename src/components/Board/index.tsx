@@ -50,6 +50,17 @@ const Board = () => {
     indexColumnCurrent: number,
     cardId: number
   ) => {
+    const indexColumnDestiny = lists.findIndex(
+      (column: any) => column.id === idColumnDestiny
+    );
+
+    if (indexColumnDestiny === indexColumnCurrent) {
+      return;
+    }
+
+    console.log(idColumnDestiny);
+    console.log(indexColumnCurrent);
+
     setLists((prevLists: any) => {
       const newLists = [...prevLists];
       const card: any = newLists[indexColumnCurrent]?.cards.find(
